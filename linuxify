@@ -90,9 +90,7 @@ linuxify_install() {
         fi
     done
 
-    # Change default shell to brew-installed /usr/local/bin/bash
-    grep -qF '/usr/local/bin/bash' /etc/shells || echo '/usr/local/bin/bash' | sudo tee -a /etc/shells > /dev/null
-    chsh -s /usr/local/bin/bash
+    chsh -s /usr/local/bin/zsh
 
     # gdb requires special privileges to access Mach ports.
     # One can either codesign the binary as per https://sourceware.org/gdb/wiki/BuildingOnDarwin
@@ -100,8 +98,8 @@ linuxify_install() {
     grep -qF 'set startup-with-shell off' ~/.gdbinit || echo 'set startup-with-shell off' | tee -a ~/.gdbinit > /dev/null
 
     # Make changes to PATH/MANPATH/INFOPATH/LDFLAGS/CPPFLAGS
-    cp .linuxify ~/.linuxify
-    echo "Add '. ~/.linuxify' to your ~/.bashrc, ~/.zshrc or your shell's equivalent config file"
+    cat ~/.linuxify >> ~/.zshrc
+    echo "Add gnu utils to path. save to .zshrc"
 }
 
 linuxify_uninstall() {
